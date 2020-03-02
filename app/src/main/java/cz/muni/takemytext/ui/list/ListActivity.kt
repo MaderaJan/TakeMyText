@@ -1,20 +1,18 @@
-package cz.muni.takemytext
+package cz.muni.takemytext.ui.list
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import cz.muni.takemytext.R
 
-class MainActivity : AppCompatActivity() {
+class ListActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_single_container)
 
-        setContentView(R.layout.activity_main)
-
-        val fragment = DetailFragment()
-
+        val fragment = ListFragment()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
-
 }

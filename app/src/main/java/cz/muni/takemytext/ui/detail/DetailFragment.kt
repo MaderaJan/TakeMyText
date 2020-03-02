@@ -1,4 +1,4 @@
-package cz.muni.takemytext
+package cz.muni.takemytext.ui.detail
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -9,7 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import cz.muni.takemytext.R
 import cz.muni.takemytext.extension.toPresentableDate
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import java.util.*
@@ -70,7 +72,8 @@ class DetailFragment : Fragment() {
         }
 
         view.save_button.setOnClickListener {
-            Log.d("DETAIL_FRAGMENT", "on button clicked ${text.length}")
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+//            Log.d("DETAIL_FRAGMENT", "on button clicked ${text.length}")
         }
 
         return view
