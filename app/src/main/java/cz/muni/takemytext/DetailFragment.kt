@@ -1,5 +1,6 @@
 package cz.muni.takemytext
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import cz.muni.takemytext.extension.toPresentableDate
 import kotlinx.android.synthetic.main.fragment_detail.view.*
+import java.util.*
 
 class DetailFragment : Fragment() {
 
@@ -33,10 +36,37 @@ class DetailFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
+        view.date_text_view.text = System.currentTimeMillis().toPresentableDate()
+        context?.let { context ->
+            view.date_text_view.setOnClickListener {
+                DatePickerDialog(
+                    context,
+                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                        val dateMillis = Calendar.getInstance().apply {
+                            set(Calendar.YEAR, year)
+                            set(Calendar.MONTH, month)
+                            set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                        }.timeInMillis
+
+                        view.date_text_view.text = dateMillis.toPresentableDate()
+                    },
+                    Calendar.getInstance().get(Calendar.YEAR),
+                    Calendar.getInstance().get(Calendar.MONTH),
+                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+        }
+
         val categoryArray = arrayOf("Doma", "Práce", "Osobní")
         context?.let { context ->
             view.category_spinner.adapter =
                 ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, categoryArray)
+        }
+
+        val usersSpinner = arrayOf("Honza", "Anna", "Bára")
+        context?.let { context ->
+            view.users_spinner.adapter =
+                ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, usersSpinner)
         }
 
         view.save_button.setOnClickListener {

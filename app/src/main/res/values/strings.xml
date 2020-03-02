@@ -3,4 +3,8 @@
 
     <string name="title">Nadpis</string>
     <string name="category">Kategorie</string>
+    <string name="users">Uživatelé</string>
+    <string name="save_note">Save note</string>
+    <string name="choose_date">Save note</string>
+    <string name="date">Datum</string>
 </resources>
