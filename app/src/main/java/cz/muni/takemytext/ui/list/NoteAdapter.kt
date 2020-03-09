@@ -9,7 +9,9 @@ import cz.muni.takemytext.extension.toPresentableDate
 import cz.muni.takemytext.model.Note
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NoteAdapter(private val notes: List<Note>): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+
+    private val notes: MutableList<Note> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
@@ -20,6 +22,11 @@ class NoteAdapter(private val notes: List<Note>): RecyclerView.Adapter<NoteAdapt
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.bind(notes[position])
+    }
+
+    fun addNote(note: Note) {
+        notes.add(note)
+        notifyDataSetChanged()
     }
 
     inner class NoteViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
