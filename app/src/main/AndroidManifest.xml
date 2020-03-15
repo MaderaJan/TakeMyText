@@ -2,6 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="cz.muni.takemytext">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,8 +15,7 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.detail.DetailActivity"
-            android:screenOrientation="portrait"/>
+            android:name=".ui.detail.DetailActivity" />
 
         <activity android:name=".ui.list.ListActivity">
             <intent-filter>

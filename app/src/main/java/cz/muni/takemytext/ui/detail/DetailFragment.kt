@@ -109,4 +109,15 @@ class DetailFragment : Fragment() {
 
         return view
     }
+
+    // TODO
+//    private fun dispatchTakePictureIntent() {
+//        context?.let { context ->
+//            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+//                takePictureIntent.resolveActivity(context.packageManager)?.also {
+//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+//                }
+//            }
+//        }
+//    }
 }
