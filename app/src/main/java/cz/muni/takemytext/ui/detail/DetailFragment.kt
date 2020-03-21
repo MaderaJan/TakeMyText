@@ -3,7 +3,10 @@ package cz.muni.takemytext.ui.detail
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -11,22 +14,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import cz.muni.takemytext.R
+import cz.muni.takemytext.extension.toByteArray
 import cz.muni.takemytext.extension.toPresentableDate
 import cz.muni.takemytext.model.Note
+import cz.muni.takemytext.model.REQUEST_CAMERA_PERMISSION
+import cz.muni.takemytext.model.REQUEST_IMAGE_CAPTURE
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import java.util.*
 
 class DetailFragment : Fragment() {
 
-    var note = Note("", 0L, "", "")
+    var note = Note()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        retainInstance = true
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
 
         view.title_edit_text.addTextChangedListener(object : TextWatcher {
@@ -107,17 +115,56 @@ class DetailFragment : Fragment() {
             activity?.finish()
         }
 
+        view.add_photo.setOnClickListener {
+            context?.let { context ->
+                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED
+                ) {
+                    dispatchTakePictureIntent()
+                } else {
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.CAMERA),
+                        REQUEST_CAMERA_PERMISSION
+                    )
+                }
+            }
+        }
+
         return view
     }
 
-    // TODO
-//    private fun dispatchTakePictureIntent() {
-//        context?.let { context ->
-//            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-//                takePictureIntent.resolveActivity(context.packageManager)?.also {
-//                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-//                }
-//            }
-//        }
-//    }
+    private fun dispatchTakePictureIntent() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+        }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode != Activity.RESULT_OK) return
+
+        when (requestCode) {
+            REQUEST_IMAGE_CAPTURE -> {
+                val bitmap = data?.extras?.get("data") as Bitmap?
+                if (bitmap != null) {
+                    view?.image_view?.setImageBitmap(bitmap)
+                    note = note.copy(imageByteArray = bitmap.toByteArray())
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.isNotEmpty()
+            && grantResults[0] == PackageManager.PERMISSION_GRANTED
+        ) {
+            dispatchTakePictureIntent()
+        }
+    }
 }

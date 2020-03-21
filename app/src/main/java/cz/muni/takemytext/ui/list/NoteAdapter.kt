@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import cz.muni.takemytext.R
+import cz.muni.takemytext.extension.toBitmap
 import cz.muni.takemytext.extension.toPresentableDate
 import cz.muni.takemytext.model.Note
 import kotlinx.android.synthetic.main.item_note.view.*
@@ -36,6 +37,7 @@ class NoteAdapter(): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             view.category_text_view.text = note.category
             view.user_text_view.text = note.user
             view.date_text_view.text = note.date.toPresentableDate()
+            view.image_view.setImageBitmap(note.imageByteArray?.toBitmap())
         }
     }
 }
