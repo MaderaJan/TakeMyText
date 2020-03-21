@@ -10,7 +10,7 @@ import cz.muni.takemytext.extension.toPresentableDate
 import cz.muni.takemytext.model.Note
 import kotlinx.android.synthetic.main.item_note.view.*
 
-class NoteAdapter(): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     private val notes: MutableList<Note> = mutableListOf()
 
@@ -27,6 +27,12 @@ class NoteAdapter(): RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     fun addNote(note: Note) {
         notes.add(note)
+        notifyDataSetChanged()
+    }
+
+    fun submitList(notes: List<Note>) {
+        this.notes.clear()
+        this.notes.addAll(notes)
         notifyDataSetChanged()
     }
 

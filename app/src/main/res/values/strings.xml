@@ -9,4 +9,5 @@
     <string name="date">Datum</string>
     <string name="add">Přidat</string>
     <string name="add_photo">Přidat fotku</string>
+    <string name="last_sign_in">Poslední přihlášení: %s</string>
 </resources>
