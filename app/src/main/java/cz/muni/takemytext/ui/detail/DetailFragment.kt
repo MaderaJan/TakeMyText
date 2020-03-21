@@ -27,7 +27,10 @@ import java.util.*
 
 class DetailFragment : Fragment() {
 
-    var note = Note()
+    private var note = Note()
+
+    // TODO USER repo
+//    private val userRepository by lazy { UserRepository() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,6 +91,29 @@ class DetailFragment : Fragment() {
                 }
         }
 
+        // TODO ++Internet persmission
+//        userRepository.fetchUsers { names ->
+//            val usersSpinner = names?.toTypedArray() ?: arrayOf("Honza", "Anna", "Bára")
+//
+//            context?.let { context ->
+//                view.users_spinner.adapter =
+//                    ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, usersSpinner)
+//
+//                view.users_spinner.onItemSelectedListener =
+//                    object : AdapterView.OnItemSelectedListener {
+//                        override fun onNothingSelected(parent: AdapterView<*>?) {}
+//                        override fun onItemSelected(
+//                            parent: AdapterView<*>?,
+//                            view: View?,
+//                            position: Int,
+//                            id: Long
+//                        ) {
+//                            note = note.copy(user = usersSpinner[position])
+//                        }
+//                    }
+//            }
+//        }
+
         val usersSpinner = arrayOf("Honza", "Anna", "Bára")
         context?.let { context ->
             view.users_spinner.adapter =
@@ -136,7 +162,7 @@ class DetailFragment : Fragment() {
     private fun dispatchTakePictureIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
-        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
