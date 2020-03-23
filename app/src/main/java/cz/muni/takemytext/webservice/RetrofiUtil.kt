@@ -3,7 +3,7 @@ package cz.muni.takemytext.webservice
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object RetrofiUtil {
+object RetrofitUtil {
 
     fun createWebService(): UserWebservice {
         val retrofit = Retrofit.Builder()

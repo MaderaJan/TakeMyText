@@ -12,4 +12,6 @@ class NoteRepository(private val context: Context) {
     fun insertNote(note: Note) {
         noteDao.insert(note)
     }
+
+    fun getAllNotes(): List<Note> = noteDao.getAllNotes()
 }

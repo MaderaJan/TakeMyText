@@ -3,7 +3,6 @@ package cz.muni.takemytext.util
 import android.content.Context
 import android.content.SharedPreferences
 
-// TOOD PREFS
 class PrefManager(context: Context) {
 
     companion object {
@@ -18,12 +17,4 @@ class PrefManager(context: Context) {
     var lastAppStartDate: Long
         get() = shared.getLong(LAST_APP_START_MILLIS, 0)
         set(value) = shared.edit().putLong(LAST_APP_START_MILLIS, value).apply()
-
-
-    // TODO odstranit
-    fun getLastAppStart() =
-        shared.getLong(LAST_APP_START_MILLIS, 0)
-
-    fun setLastAppStart(value: Long) =
-        shared.edit().putLong(LAST_APP_START_MILLIS, value).apply()
 }

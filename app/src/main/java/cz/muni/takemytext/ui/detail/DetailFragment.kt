@@ -22,6 +22,7 @@ import cz.muni.takemytext.extension.toPresentableDate
 import cz.muni.takemytext.model.Note
 import cz.muni.takemytext.model.REQUEST_CAMERA_PERMISSION
 import cz.muni.takemytext.model.REQUEST_IMAGE_CAPTURE
+import cz.muni.takemytext.repository.UserRepository
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import java.util.*
 
@@ -29,8 +30,7 @@ class DetailFragment : Fragment() {
 
     private var note = Note()
 
-    // TODO USER repo
-//    private val userRepository by lazy { UserRepository() }
+    private val userRepository by lazy { UserRepository() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,46 +91,26 @@ class DetailFragment : Fragment() {
                 }
         }
 
-        // TODO ++Internet persmission
-//        userRepository.fetchUsers { names ->
-//            val usersSpinner = names?.toTypedArray() ?: arrayOf("Honza", "Anna", "Bára")
-//
-//            context?.let { context ->
-//                view.users_spinner.adapter =
-//                    ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, usersSpinner)
-//
-//                view.users_spinner.onItemSelectedListener =
-//                    object : AdapterView.OnItemSelectedListener {
-//                        override fun onNothingSelected(parent: AdapterView<*>?) {}
-//                        override fun onItemSelected(
-//                            parent: AdapterView<*>?,
-//                            view: View?,
-//                            position: Int,
-//                            id: Long
-//                        ) {
-//                            note = note.copy(user = usersSpinner[position])
-//                        }
-//                    }
-//            }
-//        }
+        userRepository.fetchUsers { names ->
+            val userNames = names?.toTypedArray() ?: arrayOf("Honza", "Anna", "Bára")
 
-        val usersSpinner = arrayOf("Honza", "Anna", "Bára")
-        context?.let { context ->
-            view.users_spinner.adapter =
-                ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, usersSpinner)
+            context?.let { context ->
+                view.users_spinner.adapter =
+                    ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, userNames)
 
-            view.users_spinner.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        note = note.copy(user = usersSpinner[position])
+                view.users_spinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {}
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            note = note.copy(user = userNames[position])
+                        }
                     }
-                }
+            }
         }
 
         view.save_button.setOnClickListener {
